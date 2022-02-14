@@ -20,5 +20,4 @@
 * `RhinoAdapter`랑 관련된거도 같이 보세여
 
 ## 루아를 지원하는 봇 앱을 만들고 싶다!
-* 미래의 제가 luaj 넣은거 올릴 때 까지 기다리세여
-* 아니면 [이거](https://github.com/DarkTornado/LuaKakaoTalkBot)보세여
+* 그냥 [이거](https://github.com/DarkTornado/LuaKakaoTalkBot)보세여
