@@ -42,6 +42,9 @@ public class RhinoAdapter {
             func.call(rhino, scope, scope, args);
             Context.exit();
             return true;
+        } catch (ClassCastException e) { //JS쪽에서 없는 함수 호출하면 뜨는 오류
+            Context.exit(); //아무것도 안하고 그냥 무시
+            return false;
         } catch (Exception e) {
             Context.exit();
             Toast.makeText(ctx, "이벤트 리스너(" + name + ") 호출 실패\n" + e.toString(), Toast.LENGTH_SHORT).show();
