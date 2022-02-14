@@ -9,6 +9,9 @@ import android.service.notification.StatusBarNotification;
 
 public class KakaotalkListener extends NotificationListenerService {
 
+    /* 임시 전원 스위치 */
+    public static boolean botEnabled = false;
+
     /* JS용 */
     public static RhinoAdapter js;
 
@@ -21,7 +24,7 @@ public class KakaotalkListener extends NotificationListenerService {
     @Override
     public void onNotificationPosted(final StatusBarNotification sbn) {
         super.onNotificationPosted(sbn);
-        //알아서 봇 on/off 구분 넣으셈
+        if(!botEnabled) return;
         if (!sbn.getPackageName().equals("com.kakao.talk")) return; //블록 너무 깊어서 반대로 적음
         Notification.WearableExtender wExt = new Notification.WearableExtender(sbn.getNotification());
         for (Notification.Action act : wExt.getActions()) {

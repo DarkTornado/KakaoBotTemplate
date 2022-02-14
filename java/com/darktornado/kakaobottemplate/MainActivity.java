@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
@@ -14,6 +15,13 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         LinearLayout layout = new LinearLayout(this);
         layout.setOrientation(1);
+
+        /* 임시 전원 스위치 */
+        Switch on = new Switch(this);
+        on.setText("임시 전원 스위치");
+        on.setChecked(KakaotalkListener.botEnabled);
+        on.setOnCheckedChangeListener((view, isChecked) -> KakaotalkListener.botEnabled = isChecked);
+        layout.addView(on);
 
         final EditText txt = new EditText(this);
         txt.setHint("소스 입력");
