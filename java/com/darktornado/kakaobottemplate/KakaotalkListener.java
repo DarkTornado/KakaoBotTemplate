@@ -9,6 +9,15 @@ import android.service.notification.StatusBarNotification;
 
 public class KakaotalkListener extends NotificationListenerService {
 
+    /* JS용 */
+    public static RhinoAdapter js;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        js = new RhinoAdapter(this);
+    }
+
     @Override
     public void onNotificationPosted(final StatusBarNotification sbn) {
         super.onNotificationPosted(sbn);
@@ -25,7 +34,14 @@ public class KakaotalkListener extends NotificationListenerService {
                     String room = bundle.getString(Build.VERSION.SDK_INT > 23 ? "android.summaryText" : "android.subText");
                     boolean isGroupChat = room != null;
                     if (room == null) room = sender;
-                    response(room, msg, sender, isGroupChat, new Replier(this, act));
+                    Replier replier = new Replier(this, act);
+
+                    /* 자바 및 코틀린. 아무튼 앱 내부 */
+                    response(room, msg, sender, isGroupChat, replier);
+
+                    /* 자바스크립트 */
+                    js.callEventListener("response", new Object[]{room, msg, sender, isGroupChat, replier});
+
                 }
             }
         }
@@ -34,9 +50,9 @@ public class KakaotalkListener extends NotificationListenerService {
     private void response(String room, String msg, String sender, boolean isGroupChat, Replier replier) {
         //안에 알아서 구현
         toast("room: " + room + "\nmsg: " + msg + "\nsender: " + sender + "\nisGroupChat: " + isGroupChat);
-        if (msg.equals("/test")) {
-            replier.reply("test!!");
-        }
+//        if (msg.equals("/test")) {
+//            replier.reply("test!!");
+//        }
     }
 
     private void toast(String msg) {
