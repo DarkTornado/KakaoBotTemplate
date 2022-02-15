@@ -1,9 +1,11 @@
 package com.darktornado.kakaobottemplate;
 
 import android.app.Notification;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 
@@ -14,10 +16,14 @@ public class KakaotalkListener extends NotificationListenerService {
 
     /* JS용 */
     public static RhinoAdapter js;
+    public static Context ctx;
+    public static Handler handler;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        ctx = this;
+        handler = new Handler(); //서비스에는 runOnUiThread가 없어요
         js = new RhinoAdapter(this);
     }
 

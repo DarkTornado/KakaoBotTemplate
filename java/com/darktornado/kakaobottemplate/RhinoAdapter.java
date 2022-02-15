@@ -2,6 +2,8 @@ package com.darktornado.kakaobottemplate;
 
 import android.widget.Toast;
 
+import com.darktornado.jsapi.Api;
+
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.ImporterTopLevel;
@@ -23,6 +25,7 @@ public class RhinoAdapter {
             rhino.setLanguageVersion(Context.VERSION_ES6);
             //scope = rhino.initSafeStandardObjects();
             scope = new ImporterTopLevel(rhino); //이걸로 해야 importClass랑 importPackage 사용 가능
+            ScriptableObject.defineClass(scope, Api.class);
             rhino.evaluateString(scope, source, "JavaScript", 1, null);
             Context.exit();
             return true;
