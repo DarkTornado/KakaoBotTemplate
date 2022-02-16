@@ -47,6 +47,7 @@ public class KakaotalkListener extends NotificationListenerService {
                     boolean isGroupChat = room != null;
                     if (room == null) room = sender;
                     Replier replier = new Replier(this, act);
+                    sessions.put(room, replier);
 
                     /* 자바 및 코틀린. 아무튼 앱 내부 */
                     response(room, msg, sender, isGroupChat, replier);
