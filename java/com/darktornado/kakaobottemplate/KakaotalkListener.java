@@ -9,15 +9,18 @@ import android.os.Handler;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 
+import java.util.HashMap;
+
 public class KakaotalkListener extends NotificationListenerService {
 
     /* 임시 전원 스위치 */
     public static boolean botEnabled = false;
 
-    /* JS용 */
+    /* JS 및 관련 API 구현용 */
     public static RhinoAdapter js;
     public static Context ctx;
     public static Handler handler;
+    public static HashMap<String, Replier> sessions = new HashMap<>();
 
     @Override
     public void onCreate() {

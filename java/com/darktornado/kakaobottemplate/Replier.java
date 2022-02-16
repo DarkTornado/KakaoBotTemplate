@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.darktornado.jsapi.Api;
+
 public class Replier {
     final private Context ctx;
     final private Notification.Action session;
@@ -24,12 +26,15 @@ public class Replier {
             msg.putCharSequence(inputable.getResultKey(), value);
         }
         RemoteInput.addResultsToIntent(session.getRemoteInputs(), intent, msg);
-
         try {
             session.actionIntent.send(ctx, 0, intent);
         } catch (PendingIntent.CanceledException e) {
 
         }
+    }
+
+    public boolean reply(String room, String msg) {
+        return Api.replyRoom(room, msg);
     }
 
 }
