@@ -42,8 +42,9 @@ public class KakaotalkListener extends NotificationListenerService {
                         act.title.toString().toLowerCase().contains("답장")) {
                     Bundle bundle = sbn.getNotification().extras;
                     String sender = bundle.getString("android.title");
-                    String msg = bundle.get("android.text").toString(); //멘션이 포함도니 경우는 String이 아니라서 Object로 가지고오고 .toString(); 사용
-                    String room = bundle.getString(Build.VERSION.SDK_INT > 23 ? "android.summaryText" : "android.subText");
+                    String msg = bundle.get("android.text").toString(); //멘션이 포함된 경우는 String이 아니라서 Object로 가지고오고 .toString(); 사용
+                    String room = bundle.getString("android.summaryText"); //안드로이드 버전 및 카톡 버전에 따라 방 이름이 담기는 곳이 다름
+                    if (room == null) room = bundle.getString("android.subText");
                     boolean isGroupChat = room != null;
                     if (room == null) room = sender;
                     Replier replier = new Replier(this, act);
