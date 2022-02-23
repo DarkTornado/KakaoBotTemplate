@@ -41,15 +41,35 @@ public class KakaotalkListener extends NotificationListenerService {
                 if (act.title.toString().toLowerCase().contains("reply") ||
                         act.title.toString().toLowerCase().contains("답장")) {
                     Bundle bundle = sbn.getNotification().extras;
+
+                    /* 채팅 보낸사람 */
                     String sender = bundle.getString("android.title");
-                    String msg = bundle.get("android.text").toString(); //멘션이 포함된 경우는 String이 아니라서 Object로 가지고오고 .toString(); 사용
-                    String room = bundle.getString("android.summaryText"); //안드로이드 버전 및 카톡 버전에 따라 방 이름이 담기는 곳이 다름
+
+                    /* 채팅 내용
+                     * 멘션이 포함되 경우는 String이 아님 */
+                    String msg = bundle.get("android.text").toString();
+
+                    /* 채팅이 수신된 방
+                     * 안드로이드 버전 및 카카오톡 버전에 따라 room이 담긴 곳이 다름
+                     * 그냥 이렇게 하면 알아서 잘 처리됨 */
+                    String room = bundle.getString("android.summaryText");
                     if (room == null) room = bundle.getString("android.subText");
+
+                    /* 1:1채팅방/단체채팅방 구분
+                     * 안드로이드 버전 및 카카오톡 버전에 따라 알림에 정보가 담겨있기도 함 */
                     boolean isGroupChat = room != null;
+
+
+                    /* 1:1채팅방 방 이름 처리 */
                     if (room == null) room = sender;
+
+                    /* 세션 캐싱 객체 */
                     Replier replier = new Replier(this, act);
+
+                    /* Api.replyRoom(room, msg); 같은거 구현용 */
                     sessions.put(room, replier);
 
+                    
                     /* 자바 및 코틀린. 아무튼 앱 내부 */
                     response(room, msg, sender, isGroupChat, replier);
 
