@@ -47,7 +47,7 @@ public class RhinoAdapter {
             func.call(rhino, scope, scope, args);
             Context.exit();
             return true;
-        } catch (ClassCastException e) { //JS쪽에서 없는 함수 호출하면 뜨는 오류
+        } catch (ClassCastException e) { //JS에 없는 함수를 안드로이드에서 호출하면 뜨는 오류
             Context.exit(); //아무것도 안하고 그냥 무시
             return false;
         } catch (Exception e) {
