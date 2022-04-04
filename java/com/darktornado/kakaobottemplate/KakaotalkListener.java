@@ -20,6 +20,8 @@ public class KakaotalkListener extends NotificationListenerService {
     public static RhinoAdapter js;
     public static Context ctx;
     public static Handler handler;
+
+    /* Api.replyRoom(room, msg); 구현용 */
     public static HashMap<String, Replier> sessions = new HashMap<>();
 
     @Override
@@ -52,8 +54,8 @@ public class KakaotalkListener extends NotificationListenerService {
                     /* 채팅이 수신된 방
                      * 안드로이드 버전 및 카카오톡 버전에 따라 room이 담긴 곳이 다름
                      * 그냥 이렇게 하면 알아서 잘 처리됨 */
-                    String room = bundle.getString("android.summaryText");
-                    if (room == null) room = bundle.getString("android.subText");
+                    String room = bundle.getString("android.subText");
+                    if (room == null) room = bundle.getString("android.summaryText");
 
                     /* 1:1채팅방/단체채팅방 구분
                      * 안드로이드 버전 및 카카오톡 버전에 따라 알림에 정보가 담겨있기도 함 */
@@ -69,13 +71,12 @@ public class KakaotalkListener extends NotificationListenerService {
                     /* Api.replyRoom(room, msg); 같은거 구현용 */
                     sessions.put(room, replier);
 
-                    
+
                     /* 자바 및 코틀린. 아무튼 앱 내부 */
                     response(room, msg, sender, isGroupChat, replier);
 
                     /* 자바스크립트 */
                     js.callEventListener("response", new Object[]{room, msg, sender, isGroupChat, replier});
-
                 }
             }
         }
