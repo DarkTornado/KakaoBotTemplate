@@ -37,8 +37,9 @@ public class KakaotalkListener extends NotificationListenerService {
         super.onNotificationPosted(sbn);
         if(!botEnabled) return;
         if (!sbn.getPackageName().equals("com.kakao.talk")) return; //블록 너무 깊어서 반대로 적음
-        Notification.WearableExtender wExt = new Notification.WearableExtender(sbn.getNotification());
-        for (Notification.Action act : wExt.getActions()) {
+
+        Notification.Action[] actions = getActions(sbn.getNotification());
+        for (Notification.Action act : actions) {
             if (act.getRemoteInputs() != null && act.getRemoteInputs().length > 0) {
                 if (act.title.toString().toLowerCase().contains("reply") ||
                         act.title.toString().toLowerCase().contains("답장")) {
@@ -88,6 +89,15 @@ public class KakaotalkListener extends NotificationListenerService {
 //        if (msg.equals("/test")) {
 //            replier.reply("test!!");
 //        }
+    }
+
+    private Notification.Action[] getActions(Notification noti) {
+        Notification.Action[] acts = noti.actions;
+        if (acts.length > 0) return acts;
+        
+        /* 카카오톡 9.7.5부터는 아래 방식으로는 Action이 나오지 않음 */
+        Notification.WearableExtender wExt = new Notification.WearableExtender(noti);
+        return (Notification.Action[]) wExt.getActions().toArray(new Notification.Action[0]);
     }
 
     private void toast(String msg) {
