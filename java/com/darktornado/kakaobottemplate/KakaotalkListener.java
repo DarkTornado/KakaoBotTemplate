@@ -93,7 +93,7 @@ public class KakaotalkListener extends NotificationListenerService {
 
     private Notification.Action[] getActions(Notification noti) {
         Notification.Action[] acts = noti.actions;
-        if (acts.length > 0) return acts;
+        if (acts != null && acts.length > 0) return acts;
         
         /* 카카오톡 9.7.5부터는 아래 방식으로는 Action이 나오지 않음 */
         Notification.WearableExtender wExt = new Notification.WearableExtender(noti);
